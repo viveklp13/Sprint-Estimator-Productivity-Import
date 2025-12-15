@@ -1,8 +1,8 @@
 <?php
 define('DB_HOST', 'localhost');
-define('DB_NAME', 'sprint_estimator');
-define('DB_USER', 'sprint_estimator');
-define('DB_PASS', '');
+define('DB_NAME', 'udathu_sprint_estimator');
+define('DB_USER', 'udathu_sprint_estimator');
+define('DB_PASS', 'J9f9NmZ7i+');
 
 function getDB() {
     $conn = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
