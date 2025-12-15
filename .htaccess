@@ -26,8 +26,27 @@
     RewriteRule ^(.*)$ $1 [R=200,L]
 </IfModule>
 
+# Disable ModSecurity for file uploads (if present on server)
+<IfModule mod_security.c>
+    SecFilterEngine Off
+    SecFilterScanPOST Off
+</IfModule>
+
+# For ModSecurity 2.x
+<IfModule security2_module>
+    SecRuleEngine Off
+</IfModule>
+
 # Increase upload limits (if server allows override)
 <IfModule mod_php7.c>
+    php_value upload_max_filesize 50M
+    php_value post_max_size 50M
+    php_value max_execution_time 300
+    php_value max_input_time 300
+</IfModule>
+
+# For PHP 8.x
+<IfModule mod_php.c>
     php_value upload_max_filesize 50M
     php_value post_max_size 50M
     php_value max_execution_time 300

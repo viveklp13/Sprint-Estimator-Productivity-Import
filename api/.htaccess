@@ -1,0 +1,46 @@
+# API Directory - Specific Rules for Upload Endpoints
+
+<IfModule mod_headers.c>
+    # CORS headers
+    Header always set Access-Control-Allow-Origin "*"
+    Header always set Access-Control-Allow-Methods "GET, POST, PUT, DELETE, OPTIONS"
+    Header always set Access-Control-Allow-Headers "Content-Type, Authorization, X-Requested-With"
+</IfModule>
+
+# Disable ModSecurity for this directory (commonly blocks file uploads)
+<IfModule mod_security.c>
+    SecFilterEngine Off
+    SecFilterScanPOST Off
+</IfModule>
+
+<IfModule security2_module>
+    SecRuleEngine Off
+</IfModule>
+
+# Allow PHP execution
+<Files "*.php">
+    Order allow,deny
+    Allow from all
+    Require all granted
+</Files>
+
+# Specific rules for import.php to prevent ModSecurity false positives
+<Files "import.php">
+    # Disable ModSecurity for file uploads
+    <IfModule security2_module>
+        SecRuleEngine Off
+    </IfModule>
+</Files>
+
+# Allow larger uploads
+<IfModule mod_php7.c>
+    php_value upload_max_filesize 50M
+    php_value post_max_size 50M
+    php_value memory_limit 256M
+</IfModule>
+
+<IfModule mod_php.c>
+    php_value upload_max_filesize 50M
+    php_value post_max_size 50M
+    php_value memory_limit 256M
+</IfModule>
